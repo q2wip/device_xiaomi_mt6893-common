@@ -154,3 +154,15 @@ WIFI_HIDL_FEATURE_DUAL_INTERFACE := true
 
 # Inherit the proprietary files
 include vendor/xiaomi/mt6893-common/BoardConfigVendor.mk
+
+# A17: device provides its own MTK USB gadget rc (init.mt6893.usb.rc).
+# Disable hardware/mediatek's generated init.<platform>.usb.rc to avoid a
+# duplicate module name/installation conflict in the vendor partition.
+SOONG_CONFIG_NAMESPACES += mediatek_gadget
+SOONG_CONFIG_mediatek_gadget += use_custom_usb_gadget_rc
+SOONG_CONFIG_mediatek_gadget_use_custom_usb_gadget_rc := true
+
+# A17: vendor/lineage no longer sets KERNEL_CROSS_COMPILE. The 4.14 MT6893
+# kernel needs a non-empty CROSS_COMPILE to add --target=aarch64-linux-gnu,
+# otherwise clang compiles for the host (x86_64).
+KERNEL_CROSS_COMPILE := CROSS_COMPILE=aarch64-linux-gnu-

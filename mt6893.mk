@@ -279,6 +279,14 @@ PRODUCT_SOONG_NAMESPACES += \
 # Shipping API level
 PRODUCT_SHIPPING_API_LEVEL := 30
 
+# This platform uses a non-GKI 4.14 kernel, which cannot satisfy the kernel
+# requirements of any current framework compatibility matrix (the oldest
+# supported LTS for FCM 6 is 4.19.191). Skip the OTA VINTF kernel check.
+PRODUCT_OTA_ENFORCE_VINTF_KERNEL_REQUIREMENTS := false
+# Consequently the kernel version is unknown to the build system, so UFFD GC
+# would default to enabled. 4.14 predates MREMAP_DONTUNMAP (added in 5.7).
+PRODUCT_ENABLE_UFFD_GC := false
+
 # Thermal
 PRODUCT_PACKAGES += \
     android.hardware.thermal-service.mediatek
