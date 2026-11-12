@@ -166,3 +166,9 @@ SOONG_CONFIG_mediatek_gadget_use_custom_usb_gadget_rc := true
 # kernel needs a non-empty CROSS_COMPILE to add --target=aarch64-linux-gnu,
 # otherwise clang compiles for the host (x86_64).
 KERNEL_CROSS_COMPILE := CROSS_COMPILE=aarch64-linux-gnu-
+
+# A17: the MTK vendor userspace (libion_mtk / libapusys / gralloc) still needs
+# the real legacy ION implementation. A17 default libion/libdmabufheap are
+# stubs that return -1 (ion_open() == -1), which makes libapusys abort() during
+# camera HAL init. Restore the legacy implementation via upstream soong config.
+$(call soong_config_set_bool,libion,legacy_impl,true)
