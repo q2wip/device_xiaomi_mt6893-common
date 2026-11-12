@@ -322,5 +322,11 @@ PRODUCT_PACKAGES += \
 PRODUCT_COPY_FILES += \
     $(call find-copy-subdir-files,*,$(LOCAL_PATH)/configs/wifi/,$(TARGET_COPY_OUT_VENDOR)/etc/wifi)
 
+# wlan_assistant: writes MTK WiFi NVRAM to /dev/wmtWifi. The upstream module
+# with the same name is not installed for this product, so install the vendor
+# rc under a non-conflicting filename (init parses every *.rc in this dir).
+PRODUCT_COPY_FILES += \
+    vendor/xiaomi/mt6893-common/proprietary/vendor/etc/init/wlan_assistant.rc:$(TARGET_COPY_OUT_VENDOR)/etc/init/init.wlan_assistant.rc
+
 # Inherit the proprietary files
 $(call inherit-product, vendor/xiaomi/mt6893-common/mt6893-common-vendor.mk)
